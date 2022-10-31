@@ -19,7 +19,6 @@ from django.urls import path
 
 urlpatterns = [
     path('', views.index,name="index"),
-    path('blog/', views.blog,name="index"),
     path('test/', views.test, name="test"),
     path('lyrics/<str:path>', views.lyrics, name="lyrics"),
     path('movie/<str:path>', views.movie, name="movie"),

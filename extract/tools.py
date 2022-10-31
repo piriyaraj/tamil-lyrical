@@ -1,5 +1,4 @@
 import re
-from turtle import title
 from unicodedata import name
 from bs4 import BeautifulSoup
 import requests
@@ -9,21 +8,29 @@ from extract.models import ExtractData
 
 mainSitemap = "https://www.tamil2lyrics.com/sitemap.xml"
 
+
 def getMoviedeatils(url):
     reqs = requests.get(url)
     soup = BeautifulSoup(reqs.text, 'html.parser')
-    title= soup.find("h1").text
-    year=title.split("(")[1].split(")")[0]
-    title=title.split("(")[0]
-    imgUrl = soup.find('div', class_='single-widget').find("img").attrs['src']
-    return year,imgUrl
+    title = soup.find("h1").text
+    year = title.split("(")[1].split(")")[0]
+    title = title.split("(")[0]
+    try:
+        imgUrl = soup.find(
+            'div', class_='single-widget').find("img").attrs['src']
+    except:
+        imgUrl = None
+    return year, imgUrl
     pass
+
 
 def getLastSitemapAndPost():
     try:
-        data=ExtractData.objects.get(id=1)
+        data = ExtractData.objects.get(id=1)
         return data.lastSitemap, data.lastPost
-    except: " "," "
+    except:
+        " ", " "
+
 
 def setLastSitemap(lastSitemap):
     ExtractData.objects.filter(id=1).update(lastSitemap=lastSitemap)
@@ -50,7 +57,6 @@ def getSubLyricsSitemap():
     return lyricsSitemap
 
 
-
 def extractLyrics(postLink):
     reqs = requests.get(postLink)
     soup = BeautifulSoup(reqs.text, 'html.parser')
@@ -70,24 +76,28 @@ def extractLyrics(postLink):
 
     englishLyrics = "<div id='english'>"
     for i in soup.find("div", {"id": "English"}).find_all("p"):
-        
+
         if (i.text.find("Singer") >= 0):
             singers = i.text.split(": ")[1].split(" and ")[0].split(", ")
             try:
                 singers.append(i.text.split(": ")[1].split(" and ")[1])
-            except:pass
+            except:
+                pass
             continue
         if (i.text.find("Music by") >= 0):
             composer = i.text.split(": ")[1]
             continue
         if (i.text.find("Lyrics by") >= 0):
             continue
-        temp=i.text.split(":")
-        englishLyrics+="<div class='songp'>"
+        temp = i.text.split(":")
+        englishLyrics += "<div class='songp'>"
         englishLyrics += "<div class='songkey'>"+temp[0]+" : "+"</div>"
-        englishLyrics += "<div class='songvalue'>"+temp[1]+"</div>"
-        englishLyrics+="</div>"
-    englishLyrics+="</div>"
+        try:
+            englishLyrics += "<div class='songvalue'>"+temp[1]+"</div>"
+        except:
+            pass
+        englishLyrics += "</div>"
+    englishLyrics += "</div>"
 
     tamilLyrics = "<div id='tamil'>"
     for i in soup.find("div", {"id": "Tamil"}).find_all("p"):
@@ -100,47 +110,65 @@ def extractLyrics(postLink):
         temp = i.text.split(":")
         tamilLyrics += "<div class='songp'>"
         tamilLyrics += "<div class='songkey'>"+temp[0]+" : "+"</div>"
-        tamilLyrics += "<div class='songvalue'>"+temp[1]+"</div>"
+        try:
+            tamilLyrics += "<div class='songvalue'>"+temp[1]+"</div>"
+        except:
+            pass
         tamilLyrics += "</div>"
     tamilLyrics += "</div>"
 
     return songTitle, movieName, singers, composer, Lyricist, tamilLyrics, englishLyrics, movieUrl
 
+
 def feedLyrics(data):
-    songTitle, movieName, singers, composer, lyricist, tamilLyrics, englishLyrics,movieUrl = data
-    isnewmovie=len(Movie.objects.filter(name=movieName))==0
+    songTitle, movieName, singers, composer, lyricist, tamilLyrics, englishLyrics, movieUrl = data
+    isnewmovie = len(Movie.objects.filter(name=movieName)) == 0
     if (isnewmovie):
-        year, imgUrl = getMoviedeatils(movieUrl)  
-        movieObj=Movie(name=movieName,year=int(year),imgUrl=imgUrl).save()
+        year, imgUrl = getMoviedeatils(movieUrl)
+        print(imgUrl)
+        if (imgUrl == None):
+            movieObj = Movie(name=movieName, year=int(year)).save()
+        else:
+            movieObj = Movie(name=movieName, year=int(
+                year), imgUrl=imgUrl).save()
+        movieObj = Movie.objects.get(name=movieName)
     else:
-        movieObj=Movie.objects.get(name=movieName)
+        movieObj = Movie.objects.get(name=movieName)
+    print("obj", movieObj)
     try:
-        composerObj = Composer(name=composer).save()
+        composerObj = Composer.objects.create(name=composer)
     except:
         composerObj = Composer.objects.get(name=composer)
     try:
-        lyricistObj = Lyricist(name=lyricist).save()
+        lyricistObj = Lyricist.objects.create(name=lyricist)
     except:
         lyricistObj = Lyricist.objects.get(name=lyricist)
-    singerObjList=[]
+    singerObjList = []
     for singer in singers:
         try:
             singerObj = Singer.objects.create(name=singer)
         except Exception as e:
             singerObj = Singer.objects.get(name=singer)
         singerObjList.append(singerObj)
-    
+
     try:
-        songObj = Song.objects.create(title=songTitle, songe=englishLyrics, songt=tamilLyrics,movie=movieObj, lyricist=lyricistObj, composer=composerObj)
+        songObj = Song.objects.create(title=songTitle, songe=englishLyrics, songt=tamilLyrics,
+                                      movie=movieObj, lyricist=lyricistObj, composer=composerObj)
     except:
         songObj = Song.objects.get(title=songTitle)
     for i in list(singerObjList):
         songObj.singer.add(i)
+
+
 def test():
     for i in getSubLyricsSitemap()[:1]:
-        for j in extractPostLink(i)[:5]:
+        for j in extractPostLink(i)[:20]:
+            # print(j)
             feedLyrics(extractLyrics(j))
+
+
 def run():
+    noOfPost=1
     allLyricsSitemap = getSubLyricsSitemap()
     lastSitemap, lastPostLink = getLastSitemapAndPost()
     try:
@@ -149,16 +177,22 @@ def run():
         indexOflastSitemap = 0
     for i in allLyricsSitemap[indexOflastSitemap:]:
         setLastSitemap(i)
-        allPostLinks = getSubLyricsSitemap(i)
+        allPostLinks = extractPostLink(i)
         try:
             indexOfLastPost = allPostLinks.index(lastPostLink)+1
         except:
             indexOfLastPost = 0
         count = indexOfLastPost
-        for j in allPostLinks[indexOfLastPost:indexOfLastPost+5]:
+        for j in allPostLinks[indexOfLastPost:indexOfLastPost+noOfPost]:
             print(count, "====> "+j, end=" : ")
             count = count+1
             songLyrics = extractLyrics(j)
+            feedLyrics(songLyrics)
+            setLastPostLink(j)
+        if(indexOfLastPost+noOfPost==count):
+            print("hello")
+            break
+
             # print(songLyrics)
 
             # try:
@@ -175,10 +209,11 @@ def run():
             #     print(e)
             #     return -1
 
+
 if __name__ == "__main__":
     url = "https://www.tamil2lyrics.com/movies/maari-2/"
     getMoviedeatils()
-    
+
     # reqs = requests.get(u4)
     # soup = BeautifulSoup(reqs.text, 'html.parser')
     # singers = ""

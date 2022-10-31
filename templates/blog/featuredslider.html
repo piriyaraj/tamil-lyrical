@@ -7,7 +7,10 @@
         <div class="owl-carousel news-carousel carousel-item-4 position-relative">
             {% for movie in latestMovieObj%}
             <div class="position-relative overflow-hidden" style="height: 300px;">
+
+                {% if movie.imageThumb.url is not null %}
                 <img class="img-fluid h-100" src="{{movie.imageThumb.url}}" style="object-fit: cover;">
+                {% endif %}
                 <div class="overlay">
                     <div class="mb-2">
                         <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
