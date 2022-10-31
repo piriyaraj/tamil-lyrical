@@ -33,6 +33,7 @@ def lyrics(request,path):
 
 
 def movie(request, path):
+    
     movieObj = Movie.objects.get(slug=path)
     songsObj = Song.objects.filter(movie=movieObj)
     context={
