@@ -19,9 +19,12 @@ def blog(request):
 
 def lyrics(request,path):
     songObj=Song.objects.get(slug=path)
+    singers=""
+    for i in(songObj.singer.all()):
+        singers+=i.name+", "
     seo = {
         'title': songObj.title+" in tamil" ,
-        "description": songObj.title+" telegram "+songObj.title+" invite link Are you searching for active "+songObj.title+" telegram invite link then check out this blog and join the "+songObj.title,
+        "description": songObj.title+" From "+songObj.movie.name+" Movie composed by "+songObj.composer.name+", Sung by "+singers+". and Penned by "+songObj.lyricist.name,
         "robots": "index, follow",
         "ogimage": songObj.movie.imageThumb.url
     }
