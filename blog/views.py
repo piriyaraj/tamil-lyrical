@@ -96,7 +96,7 @@ def singer(request, path):
     singerObj = Singer.objects.get(slug=path)
     songsObj = Song.objects.filter(singer=singerObj)
     seo = {
-        'title': "Best "+singerObj.name+' songs lyrics | Tamil Lyrical',
+        'title': "Singer "+singerObj.name+' songs lyrics | Tamil Lyrical',
         "description": "Singer "+singerObj.name+' all songs lyrics',
         "robots": "index, follow",
         # "ogimage": movieObj.imageThumb.url
