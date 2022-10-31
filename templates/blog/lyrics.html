@@ -1,0 +1,68 @@
+{% extends 'blog/base.html' %}
+
+{% comment %} {% block fullwidthcontent %}
+
+{% endblock fullwidthcontent %} {% endcomment %}
+{% block content %}
+    <!-- Breaking News Start -->
+    <div class='row'>
+        <div class="col-lg-6">
+            <img class="moviethumb" src="{{songObj.movie.imageThumb.url}}"/>
+        </div>
+        <div class="col-lg-6">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th colspan="2">{{songObj.title}}</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="active-row">
+                        <td>song</td>
+                        <td>{{songObj.title}}</td>
+                    </tr>
+                    <tr class="active-row">
+                        <td>Year</td>
+                        <td>{{songObj.movie.year}}</td>
+                    </tr>
+                    <tr class="active-row">
+                        <td>movie</td>
+                        <td><a href="/movie/{{songObj.movie.slug}}">{{songObj.movie.name}}</a></td>
+                    </tr>
+                    <tr class="active-row">
+                        <td>composer</td>
+                        <td><a href="/composer/{{songObj.composer.slug}}">{{songObj.composer.name}}</a></td>
+                    </tr>
+                    <tr class="active-row">
+                        <td>Lyricist</td>
+                        <td><a href="/lyricist/{{songObj.lyricist.slug}}">{{songObj.lyricist.name}}</a></td>
+                    </tr>
+                    <tr class="active-row">
+                        <td>singers</td>
+                        <td>{% for i in songObj.singer.all %}
+                            <a href="/singer/{{i.slug}}">{{i.name}}</a><br/>
+                            {% endfor %}</td>
+                    </tr>
+                    <!-- and so on... -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6" style="border-left: 6px solid #34a3a2;">
+            <div class="songcate">தமிழ்</div>
+            <div>{{songObj.songt|safe}}</div>
+        </div>
+        <div class="col-lg-6" style="border-left: 6px solid #34a3a2;">
+            <div class="songcate">English</div>
+            <div>{{songObj.songe|safe}}</div>
+        </div>
+    </div>
+    <!-- Breaking News End -->
+{% endblock content %}
+
+
+
+
+   

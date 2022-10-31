@@ -1,0 +1,24 @@
+{% extends 'blog/base.html' %}
+{% load render_partial %}
+{% block fullwidthcontent %}
+    <!-- Main News Slider Start -->
+    {% include 'blog/mainslider.html' %}
+    <!-- Main News Slider End -->
+
+
+    <!-- Breaking News Start -->
+    {% render_partial 'get_newupdate' %}
+    <!-- Breaking News End -->
+
+
+    <!-- Featured News Slider Start -->
+    {% include 'blog/featuredslider.html' %}
+    <!-- Featured News Slider End -->
+{% endblock fullwidthcontent %}
+{% block content %}
+    <!-- News With Sidebar Start -->
+    {% include 'blog/newsslider.html' %}
+    <!-- News With Sidebar End -->
+
+
+{% endblock content %}

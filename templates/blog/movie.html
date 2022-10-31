@@ -1,0 +1,70 @@
+{% extends 'blog/base.html' %}
+
+
+{% block content %}
+    <!-- Breaking News Start -->
+    <div class='row'>
+        <div class="col-lg-6">
+            <img class="moviethumb" src="{{movieObj.imageThumb.url}}"/>
+        </div>
+        <div class="col-lg-6">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th colspan="2">{{movieObj.name}}</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="active-row">
+                        <td>movie</td>
+                        <td>{{movieObj.name}}</td>
+                    </tr>
+                    <tr class="active-row">
+                        <td>Year</td>
+                        <td>{{movieObj.year}}</td>
+                    </tr>
+                    <tr class="active-row">
+                        <td>songs</td>
+                        <td>{{songsObj|length}}</td>
+                    </tr>
+
+                    <!-- and so on... -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" style="border-left: 6px solid #34a3a2;">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Songs</th>
+                        <th>Lyricist</th>
+                        <th>Composer</th>
+                        <th>singers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for song in songsObj%}
+                    <tr class="active-row">
+                        <td><a href="/lyrics/{{song.slug}}">{{song.title}}</td>
+                        <td><a href="/lyricist/{{song.lyricist.slug}}">{{song.lyricist.name}}</a></td>
+                        <td><a href="/composer/{{song.composer.slug}}">{{song.composer.name}}</a></td>
+                        <td>{% for i in song.singer.all %}
+                            <a href="/singer/{{i.slug}}">{{i.name}}</a><br/>
+                            {% endfor %}</td>
+                    </tr>
+                    {% endfor %}
+                    <!-- and so on... -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Breaking News End -->
+{% endblock content %}
+
+
+
+
+   

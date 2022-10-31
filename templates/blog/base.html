@@ -1,0 +1,72 @@
+{% load static %}
+{% load render_partial %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        {% include "blog/components/seo.html" %}
+
+
+    <!-- Favicon -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">  
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css'%}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/style.css'%} " rel="stylesheet">
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    {% include 'blog/topbar.html' %}
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    {% include 'blog/navbar.html' %}
+    <!-- Navbar End -->
+    {% block fullwidthcontent %}
+        {% render_partial 'get_newupdate' %}
+    {% endblock fullwidthcontent %}
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    {% block content %}
+                    
+                    
+                    {% endblock content %}
+                </div>
+                <div class="col-lg-4">
+                       {% render_partial 'get_sidebar' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer Start -->
+    {% include 'blog/footer.html' %}
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>
