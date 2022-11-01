@@ -11,3 +11,8 @@ def getNewLyrics(request):
     tools.run()
 
     return render(request,'extract/index.html')
+
+def update(request):
+    tools.updateUrl()
+
+    return render(request,'extract/index.html')

@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import requests
 from blog.models import Composer, Lyricist, Movie, Singer, Song
 
-from extract.models import ExtractData
+from extract.models import ExtractData, PostUrls
 
 mainSitemap = "https://www.tamil2lyrics.com/sitemap.xml"
 
@@ -168,48 +168,19 @@ def test():
 
 
 def run():
-    noOfPost=1
-    allLyricsSitemap = getSubLyricsSitemap()
-    lastSitemap, lastPostLink = getLastSitemapAndPost()
-    try:
-        indexOflastSitemap = allLyricsSitemap.index(lastSitemap)
-    except:
-        indexOflastSitemap = 0
-    for i in allLyricsSitemap[indexOflastSitemap:]:
-        setLastSitemap(i)
-        allPostLinks = extractPostLink(i)
-        try:
-            indexOfLastPost = allPostLinks.index(lastPostLink)+1
-        except:
-            indexOfLastPost = 0
-        count = indexOfLastPost
-        for j in allPostLinks[indexOfLastPost:indexOfLastPost+noOfPost]:
-            print(count, "====> "+j, end=" : ")
-            count = count+1
-            songLyrics = extractLyrics(j)
-            feedLyrics(songLyrics)
-            setLastPostLink(j)
-        if(indexOfLastPost+noOfPost==count):
-            print("hello")
-            break
+    j=PostUrls.objects.filter(status=False)[0]
+    songLyrics = extractLyrics(j)
+    feedLyrics(songLyrics)
 
-            # print(songLyrics)
+    PostUrls.objects.filter(url=j).update(status=True)
 
-            # try:
-            #     postToFacebookText(songLyrics)
-            #     setLastPostLink(j)
-            #     print(" : posted")
-            #     # return -1
-            #     time.sleep(60)
-
-            #     # print(postText)
-            # except Exception as e:
-            #     # setLastSitemap(i)
-            #     # setLastPostLink(j)
-            #     print(e)
-            #     return -1
-
-
+def updateUrl():
+    for i in getSubLyricsSitemap():
+        for j in extractPostLink(i):
+            try:
+                PostUrls.objects.create(url=j)
+            except:pass
+    pass
 if __name__ == "__main__":
     url = "https://www.tamil2lyrics.com/movies/maari-2/"
     getMoviedeatils()

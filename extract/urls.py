@@ -19,4 +19,5 @@ from . import views
 urlpatterns = [
     path('', views.index, name="ex_index"), 
     path('new/', views.getNewLyrics, name="extractnewpost"),
+    path('updateurl/', views.update, name="updateurl"),
 ]
