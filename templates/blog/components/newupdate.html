@@ -9,7 +9,10 @@
                     <div class="owl-carousel tranding-carousel position-relative d-inline-flex align-items-center bg-white border border-left-0"
                         style="width: calc(100% - 180px); padding-right: 100px;">
                         {% for new in newupdate%}
-                        <div class="text-truncate"><a class="text-secondary text-uppercase font-weight-semi-bold" href="/lyrics/{{new.slug}}">{{new.title}}</a></div>
+                        <div class="text-truncate"><a hx-get="/lyrics/{{new.slug}}"
+    hx-trigger="click"
+    hx-target="#root"
+    hx-swap="innerHTML" class="text-secondary text-uppercase font-weight-semi-bold" href="">{{new.title}}</a></div>
                         {% endfor %}
                     </div>
                 </div>

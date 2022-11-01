@@ -4,7 +4,7 @@
         <div class="section-title">
             <h4 class="m-0 text-uppercase font-weight-bold">Latest Movie</h4>
         </div>
-        <div class="owl-carousel news-carousel carousel-item-4 position-relative">
+        <div class="owl-carousel news-carousel carousel-item-3 position-relative">
             {% for movie in latestMovieObj%}
             <div class="position-relative overflow-hidden" style="height: 300px;">
 
@@ -13,9 +13,15 @@
                 {% endif %}
                 <div class="overlay">
                     <div class="mb-2">
-                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                            href="/movie/{{movie.slug}}">{{movie.name}}</a></br>
-                        <a class="text-white" href="/year/{{movie.year}}"><small>{{movie.year}}</small></a>
+                        <a hx-get="/movie/{{movie.slug}}"
+    hx-trigger="click"
+    hx-target="#root"
+    hx-swap="innerHTML" class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                            href="">{{movie.name}}</a></br>
+                        <a hx-get="/year/{{movie.year}}"
+    hx-trigger="click"
+    hx-target="#root"
+    hx-swap="innerHTML" class="text-white" href=""><small>{{movie.year}}</small></a>
                     </div>
                     {% comment %} <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold" href="">Lorem ipsum dolor sit amet elit...</a> {% endcomment %}
                 </div>

@@ -1,8 +1,3 @@
-{% extends 'blog/base.html' %}
-
-{% comment %} {% block fullwidthcontent %}
-
-{% endblock fullwidthcontent %} {% endcomment %}
 {% block content %}
     <!-- Breaking News Start -->
     <div class='row'>
@@ -28,20 +23,33 @@
                     </tr>
                     <tr class="active-row">
                         <td>movie</td>
-                        <td><a href="/movie/{{songObj.movie.slug}}">{{songObj.movie.name}}</a></td>
+                        <td><a hx-get="/movie/{{songObj.movie.slug}}"
+    hx-trigger="click"
+    hx-target="#root"
+    hx-swap="innerHTML"
+    hx-replace-url="true" href="">{{songObj.movie.name}}</a></td>
                     </tr>
                     <tr class="active-row">
                         <td>composer</td>
-                        <td><a href="/composer/{{songObj.composer.slug}}">{{songObj.composer.name}}</a></td>
+                        <td><a hx-get="/composer/{{songObj.composer.slug}}"
+    hx-trigger="click"
+    hx-target="#root"
+    hx-swap="innerHTML" href="">{{songObj.composer.name}}</a></td>
                     </tr>
                     <tr class="active-row">
                         <td>Lyricist</td>
-                        <td><a href="/lyricist/{{songObj.lyricist.slug}}">{{songObj.lyricist.name}}</a></td>
+                        <td><a hx-get="/lyricist/{{songObj.lyricist.slug}}"
+    hx-trigger="click"
+    hx-target="#root"
+    hx-swap="innerHTML" href="">{{songObj.lyricist.name}}</a></td>
                     </tr>
                     <tr class="active-row">
                         <td>singers</td>
                         <td>{% for i in songObj.singer.all %}
-                            <a href="/singer/{{i.slug}}">{{i.name}}</a><br/>
+                            <a hx-get="/singer/{{i.slug}}"
+    hx-trigger="click"
+    hx-target="#root"
+    hx-swap="innerHTML" href="">{{i.name}}</a><br/>
                             {% endfor %}</td>
                     </tr>
                     <!-- and so on... -->

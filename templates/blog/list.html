@@ -1,6 +1,3 @@
-{% extends 'blog/base.html' %}
-
-
 {% block content %}
     <!-- Breaking News Start -->
     <div class="row">
@@ -10,8 +7,14 @@
                     <img class="img-fluid" src="{{movie.imageThumb.url}}" alt="">
                     <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                         <div class="mb-2">
-                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="/movie/{{movie.slug}}">{{movie.name}}</a>
-                            <a class="text-body" href="/year/{{movie.year}}"><small>{{movie.year}}</small></a>
+                            <a hx-get="/movie/{{movie.slug}}"
+    hx-trigger="click"
+    hx-target="#root"
+    hx-swap="innerHTML" class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{movie.name}}</a>
+                            <a hx-get="/year/{{movie.year}}"
+    hx-trigger="click"
+    hx-target="#root"
+    hx-swap="innerHTML" class="text-body" href=""><small>{{movie.year}}</small></a>
                         </div>
                     </div>
                 </div>
@@ -24,8 +27,14 @@
                     <img class="img-fluid" src="{{movie.imageThumb.url}}" alt="">
                     <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                         <div class="mb-2">
-                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="/movie/{{movie.slug}}">{{movie.name}}</a>
-                            <a class="text-body" href="/year/{{movie.year}}"><small>{{movie.year}}</small></a>
+                            <a hx-get="/movie/{{movie.slug}}"
+    hx-trigger="click"
+    hx-target="#root"
+    hx-swap="innerHTML" class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{movie.name}}</a>
+                            <a hx-get="/year/{{movie.year}}"
+    hx-trigger="click"
+    hx-target="#root"
+    hx-swap="innerHTML" class="text-body" href=""><small>{{movie.year}}</small></a>
                         </div>
                     </div>
                 </div>
