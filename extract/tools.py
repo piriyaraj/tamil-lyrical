@@ -125,7 +125,7 @@ def feedLyrics(data):
     isnewmovie = len(Movie.objects.filter(name=movieName)) == 0
     if (isnewmovie):
         year, imgUrl = getMoviedeatils(movieUrl)
-        print(imgUrl)
+        # print(imgUrl)
         if (imgUrl == None):
             movieObj = Movie(name=movieName, year=int(year)).save()
         else:
@@ -134,7 +134,7 @@ def feedLyrics(data):
         movieObj = Movie.objects.get(name=movieName)
     else:
         movieObj = Movie.objects.get(name=movieName)
-    print("obj", movieObj)
+    # print("obj", movieObj)
     try:
         composerObj = Composer.objects.create(name=composer)
     except:
