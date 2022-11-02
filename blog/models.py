@@ -1,3 +1,4 @@
+from django.urls import reverse
 from urllib.request import Request, urlopen
 from tempfile import NamedTemporaryFile
 from django.core.files import File
@@ -21,6 +22,10 @@ class Song(models.Model):
     lyricist = models.ForeignKey(
         "Lyricist", on_delete=models.CASCADE, blank=True, null=True)
 
+
+    def get_absolute_url(self):
+        return reverse("lyrics", args=[self.slug])
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
@@ -35,6 +40,9 @@ class Movie(models.Model):
         
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("movie", args=[self.slug])
 
     def save(self, *args, **kwargs):
         if self.imgUrl and not self.imageThumb:
@@ -56,6 +64,9 @@ class Singer(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("singer", args=[self.slug])
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
@@ -64,6 +75,9 @@ class Composer(models.Model):
     name = models.CharField(max_length=1000)
     slug = models.SlugField(unique=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    def get_absolute_url(self):
+        return reverse("composer", args=[self.slug])
 
     def __str__(self):
         return self.name
@@ -76,6 +90,9 @@ class Lyricist(models.Model):
     name = models.CharField(max_length=1000)
     slug = models.SlugField(unique=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    def get_absolute_url(self):
+        return reverse("lyricist", args=[self.slug])
 
     def __str__(self):
         return self.name

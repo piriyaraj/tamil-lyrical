@@ -16,6 +16,8 @@ Including another URLconf
 from . import views
 from django.contrib import admin
 from django.urls import path
+from blog.sitemap import ComposerSitemap, LyricistSitemap, LyricsSitemap, MovieSitemap, SingerSitemap, StaticViewSitemap
+from django.contrib.sitemaps.views import sitemap
 
 urlpatterns = [
     path('', views.index,name="index"),
@@ -32,4 +34,14 @@ componentCallurl=[
     path('get_sidebar/', views.get_sidebar, name="get_sidebar"),
     path('get_newupdate/', views.get_newUpdate, name="get_newupdate"),
 ]
+sitemapUrls=[
+    path("lyrics-sitemap.xml", sitemap, {'sitemaps': {"blog": LyricsSitemap}}),
+    path("movie-sitemap.xml", sitemap, {'sitemaps': {"blog": MovieSitemap}}),
+    path("singer-sitemap.xml", sitemap, {'sitemaps': {"blog": SingerSitemap}}),
+    path("composer-sitemap.xml", sitemap, {'sitemaps': {"blog": ComposerSitemap}}),
+    path("static-sitemap.xml", sitemap, {'sitemaps': {"blog": StaticViewSitemap}}),
+    path("lyricist-sitemap.xml", sitemap, {'sitemaps': {"blog": LyricistSitemap}}),
+
+]
 urlpatterns+=componentCallurl
+urlpatterns+=sitemapUrls
