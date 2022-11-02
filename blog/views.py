@@ -27,11 +27,16 @@ def lyrics(request,path):
     singers=""
     for i in(songObj.singer.all()):
         singers+=i.name+", "
+    try:
+        img = songObj.movie.imageThumb.url
+    except:
+        img = '/static/img/logo/logo.png'
+    print(img)
     seo = {
         'title': songObj.title+" in tamil" ,
         "description": songObj.title+" From "+songObj.movie.name+" Movie composed by "+songObj.composer.name+", Sung by "+singers+". and Penned by "+songObj.lyricist.name,
         "robots": "index, follow",
-        "ogimage": songObj.movie.imageThumb.url
+        "ogimage": img
     }
     context = {
         'songObj': songObj,
@@ -44,11 +49,15 @@ def movie(request, path):
     
     movieObj = Movie.objects.get(slug=path)
     songsObj = Song.objects.filter(movie=movieObj)
+    try:
+        img = movieObj.imageThumb.url
+    except:
+        img = '/static/img/logo/logo.png'
     seo = {
         'title': movieObj.name+' movie all songs lyrics | Tamil Lyrical',
         "description": movieObj.name+ 'all songs lyrics in tamil and english',
         "robots": "index, follow",
-        "ogimage": movieObj.imageThumb.url
+        "ogimage": img
     }
     context={
         'movieObj': movieObj,

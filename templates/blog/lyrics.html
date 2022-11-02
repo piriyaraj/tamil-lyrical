@@ -7,7 +7,9 @@
     <!-- Breaking News Start -->
     <div class='row'>
         <div class="col-lg-6">
+            {% if songObj.movie.imageThumb.url is not null %}
             <img class="moviethumb" src="{{songObj.movie.imageThumb.url}}"/>
+            {% endif %}
         </div>
         <div class="col-lg-6">
             <table class="styled-table">
