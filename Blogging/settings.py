@@ -144,5 +144,4 @@ ROBOTS_SITEMAP_URLS = [
     'https://tamillyrical.telekit.link/composer-sitemap.xml',
     'https://tamillyrical.telekit.link/static-sitemap.xml',
     'https://tamillyrical.telekit.link/lyricist-sitemap.xml',
-
 ]

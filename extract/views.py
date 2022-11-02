@@ -7,7 +7,7 @@ def index(request):
     return render(request,'extract/index.html')
 
 
-@user_passes_test(lambda u: u.is_superuser)
+# @user_passes_test(lambda u: u.is_superuser)
 def getNewLyrics(request):
    
     tools.run()
@@ -15,7 +15,7 @@ def getNewLyrics(request):
     return render(request,'extract/index.html')
 
 
-@user_passes_test(lambda u: u.is_superuser)
+# @user_passes_test(lambda u: u.is_superuser)
 def update(request):
     tools.updateUrl()
 
