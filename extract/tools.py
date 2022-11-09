@@ -183,7 +183,7 @@ def run():
         songLyrics = extractLyrics(i)
         feedLyrics(songLyrics)
 
-    PostUrls.objects.filter(url=j).update(status=True)
+        PostUrls.objects.filter(url=i).update(status=True)
 
 def updateUrl():
     for i in getSubLyricsSitemap():
