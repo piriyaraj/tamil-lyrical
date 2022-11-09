@@ -174,7 +174,8 @@ def test():
 
 def run():
     j=PostUrls.objects.filter(status=False)[0]
-    # j = "https://www.tamil2lyrics.com/lyrics/chillendra-chillendra-song-lyrics/"
+    print(j)
+    # j = "https://www.tamil2lyrics.com/lyrics/venpani-malare-song-lyrics/"
     songLyrics = extractLyrics(j)
     feedLyrics(songLyrics)
 
