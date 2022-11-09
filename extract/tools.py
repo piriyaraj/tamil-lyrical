@@ -173,13 +173,10 @@ def test():
 
 
 def run():
-    j=PostUrls.objects.filter(status=False)
-    # j = "https://www.tamil2lyrics.com/lyrics/enna-marandhen-song-lyrics/"
-    for i in j:
-        songLyrics = extractLyrics(i)[:50]
-        try:
-            feedLyrics(songLyrics)
-        except:pass
+    j=PostUrls.objects.filter(status=False)[0]
+    j = "https://www.tamil2lyrics.com/lyrics/chillendra-chillendra-song-lyrics/"
+    songLyrics = extractLyrics(j)
+    feedLyrics(songLyrics)
 
     PostUrls.objects.filter(url=j).update(status=True)
 
