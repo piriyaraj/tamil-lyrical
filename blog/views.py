@@ -31,10 +31,13 @@ def lyrics(request,path):
         img = songObj.movie.imageThumb.url
     except:
         img = '/static/img/logo/logo.png'
-    print(img)
+    try:
+        des=songObj.title+" From "+songObj.movie.name+" Movie composed by "+songObj.composer.name+", Sung by "+singers+". and Penned by "+songObj.lyricist.name
+    except:
+        des=songObj.title+" composed by "+songObj.composer.name+", Sung by "+singers+". and Penned by "+songObj.lyricist.name
     seo = {
         'title': songObj.title+" in tamil" ,
-        "description": songObj.title+" From "+songObj.movie.name+" Movie composed by "+songObj.composer.name+", Sung by "+singers+". and Penned by "+songObj.lyricist.name,
+        "description": des,
         "robots": "index, follow",
         "ogimage": img
     }

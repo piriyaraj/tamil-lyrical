@@ -68,6 +68,7 @@ def extractLyrics(postLink):
             "div", {"class": "lyrics-title"})[0].find_all("div")[1].find("a").attrs['href']
     except:
         movieName = "-"
+        movieUrl = "-"
     try:
         Lyricist = soup.find_all(
             "div", {"class": "lyrics-title"})[0].find("h3").find("a").text
@@ -123,7 +124,7 @@ def extractLyrics(postLink):
 def feedLyrics(data):
     songTitle, movieName, singers, composer, lyricist, tamilLyrics, englishLyrics, movieUrl = data
     isnewmovie = len(Movie.objects.filter(name=movieName)) == 0
-    if (isnewmovie):
+    if (isnewmovie and movieUrl!="-"):
         year, imgUrl = getMoviedeatils(movieUrl)
         # print(imgUrl)
         if (imgUrl == None):
@@ -133,7 +134,9 @@ def feedLyrics(data):
                 year), imgUrl=imgUrl).save()
         movieObj = Movie.objects.get(name=movieName)
     else:
-        movieObj = Movie.objects.get(name=movieName)
+        try:
+            movieObj = Movie.objects.get(name=movieName)
+        except:movieObj=None
     # print("obj", movieObj)
     try:
         composerObj = Composer.objects.create(name=composer)
@@ -168,9 +171,11 @@ def test():
 
 
 def run():
-    j=PostUrls.objects.filter(status=False)[0]
-    songLyrics = extractLyrics(j)
-    feedLyrics(songLyrics)
+    j=PostUrls.objects.filter(status=False)
+    # j = "https://www.tamil2lyrics.com/lyrics/enna-marandhen-song-lyrics/"
+    for i in j:
+        songLyrics = extractLyrics(i)
+        feedLyrics(songLyrics)
 
     PostUrls.objects.filter(url=j).update(status=True)
 
