@@ -167,7 +167,9 @@ def test():
     for i in getSubLyricsSitemap()[:1]:
         for j in extractPostLink(i)[:20]:
             # print(j)
-            feedLyrics(extractLyrics(j))
+            try:
+                feedLyrics(extractLyrics(j))
+            except:pass
 
 
 def run():
