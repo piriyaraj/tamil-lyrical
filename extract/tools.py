@@ -173,17 +173,14 @@ def test():
 
 
 def run():
-    j=PostUrls.objects.filter(status=False)[:2]
+    j=PostUrls.objects.filter(status=False)[0]
     print(j)
-    m = "https://www.tamil2lyrics.com/lyrics/kaathama-song-lyrics/"
+    # m = "https://www.tamil2lyrics.com/lyrics/kaathama-song-lyrics/"
     # j = "https://www.tamil2lyrics.com/lyrics/semba-song-lyrics/"
-    for i in j:
-        if(m==i):
-            continue
-        songLyrics = extractLyrics(i)
-        feedLyrics(songLyrics)
 
-        PostUrls.objects.filter(url=i).update(status=True)
+    songLyrics = extractLyrics(j)
+    feedLyrics(songLyrics)
+    PostUrls.objects.filter(url=j).update(status=True)
 
 def updateUrl():
     for i in getSubLyricsSitemap():
