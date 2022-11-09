@@ -11,4 +11,4 @@ admin.site.register(ExtractData)
 @admin.register(PostUrls)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('url', 'status')
-    # search_fields = ('content', )
+    search_fields = ('url', )
