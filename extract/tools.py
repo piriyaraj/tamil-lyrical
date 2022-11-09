@@ -176,7 +176,7 @@ def run():
     j=PostUrls.objects.filter(status=False)
     # j = "https://www.tamil2lyrics.com/lyrics/enna-marandhen-song-lyrics/"
     for i in j:
-        songLyrics = extractLyrics(i)
+        songLyrics = extractLyrics(i)[:50]
         try:
             feedLyrics(songLyrics)
         except:pass
