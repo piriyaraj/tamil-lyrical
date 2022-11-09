@@ -7,7 +7,7 @@ from .models import *
 @admin.register(Song)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug')
-    # search_fields = ('content', )
+    search_fields = ('slug', )
 
     prepopulated_fields = {'slug': ('title', )}
 
